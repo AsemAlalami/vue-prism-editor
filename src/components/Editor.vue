@@ -77,6 +77,10 @@ export default {
     code: {
       type: String,
       default: ""
+    },
+    changing: {
+      type: Function,
+      default: function() {}
     }
   },
   data() {
@@ -252,8 +256,11 @@ export default {
       this.undoTimestamp = timestamp;
     },
     updateContent(plain) {
-      this.$emit("change", plain);
-      this.$emit("update:code", plain);
+      this.codeData = plain;
+
+      this.changing(plain);
+      // this.$emit("change", plain);
+      // this.$emit("update:code", plain);
     },
     restoreStackState(offset) {
       const { plain, selection } = this.undoStack[
